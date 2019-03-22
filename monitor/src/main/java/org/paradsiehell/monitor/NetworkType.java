@@ -5,11 +5,14 @@ package org.paradsiehell.monitor;
  */
 public enum NetworkType {
   /**
-   * WIFI 或者 数据流量
+   * 连接成功<br/>
+   * 包含一下几种情况 : <br/>
+   * 1. {@link NetworkType#WIFI} <br/>
+   * 2. {@link NetworkType#CELLULAR} <br/>
    */
-  BOTH,
+  CONNECTED,
   /**
-   * WIFI
+   * WIFI <br/>
    */
   WIFI,
   /**
@@ -17,7 +20,7 @@ public enum NetworkType {
    */
   CELLULAR,
   /**
-   * 没有网络
+   * 连接失败, 没有任何网络
    */
-  NONE
+  DISCONNECTED
 }

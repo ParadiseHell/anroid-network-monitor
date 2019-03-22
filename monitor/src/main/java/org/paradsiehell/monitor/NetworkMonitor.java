@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
  * 网络监听注解
  */
 @Documented
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface NetworkMonitor {
-  @NonNull NetworkType type() default NetworkType.BOTH;
+  @NonNull NetworkType type() default NetworkType.CONNECTED;
 }

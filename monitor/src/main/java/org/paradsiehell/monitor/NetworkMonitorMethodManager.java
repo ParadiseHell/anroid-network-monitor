@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 final class NetworkMonitorMethodManager {
+  //<editor-fold desc="常量">
+  private static final String NETWORK_MONITOR_METHOD_RETURN_TYPE = "void";
+  //</editor-fold>
+
   //<editor-fold desc="单例">
 
   private static volatile NetworkMonitorMethodManager sInstance;
@@ -55,7 +59,7 @@ final class NetworkMonitorMethodManager {
       if (annotation != null) {
         // 判断方法的返回值是否为 void
         Type type = method.getGenericReturnType();
-        if ("void".equals(type.toString())) {
+        if (NETWORK_MONITOR_METHOD_RETURN_TYPE.equals(type.toString())) {
           // 判断方法的参数
           Class<?>[] parameterTypes = method.getParameterTypes();
           // 参数数必须小于 2

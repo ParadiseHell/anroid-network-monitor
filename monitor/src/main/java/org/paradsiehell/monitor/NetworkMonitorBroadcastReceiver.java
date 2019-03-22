@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.Nullable;
 
 /**
  * 网络监听广播
@@ -15,13 +14,6 @@ public final class NetworkMonitorBroadcastReceiver extends BroadcastReceiver {
 
   // action
   public static final String ACTION_CONNECTIVITY_CHANGED = "android.net.conn.CONNECTIVITY_CHANGE";
-  //</editor-fold>
-
-  //<editor-fold desc="属性">
-
-  // 上一次网络类型, 避免重复通知
-  @Nullable
-  private NetworkType mLastNetworkType;
   //</editor-fold>
 
   @SuppressWarnings("deprecation")
@@ -36,7 +28,8 @@ public final class NetworkMonitorBroadcastReceiver extends BroadcastReceiver {
         ConnectivityManager manager =
             (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (manager != null) {
-          NetworkType networkType = NetworkType.NONE;
+          // 默认为
+          NetworkType networkType = NetworkType.DISCONNECTED;
           // 获取网络信息, 如果网络信息为 null, 则表明没有网络
           NetworkInfo networkInfo = manager.getActiveNetworkInfo();
           if (networkInfo != null) {
@@ -52,11 +45,8 @@ public final class NetworkMonitorBroadcastReceiver extends BroadcastReceiver {
                 break;
             }
           }
-          // 判断本次网络类型是否和上一次网络类型相同
-          if (networkType != mLastNetworkType) {
-            mLastNetworkType = networkType;
-            NetworkMonitorMethodManager.getInstance().invokeNetworkMonitorMethods(networkType);
-          }
+          // 处理网络类型
+          NetworkTypeHandler.getInstance().handleNetworkType(networkType);
           break;
         }
       default:

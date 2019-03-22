@@ -40,13 +40,13 @@ final class NetworkMonitorMethod {
    * @param type 网络类型
    */
   void invoke(@NonNull Object object, @NonNull NetworkType type) {
-    // 判断网络类型是否符合要求
-    // 1. 注解网络类型和参数网络类型相同
-    // 2. 注解网络类型为 BOTH 并且 参数网络类型为 CELLULAR 或者 WIFI
-    if (mAnnotationNetworkType.equals(type)
-        || (mAnnotationNetworkType.equals(NetworkType.BOTH)
-        && (type.equals(NetworkType.CELLULAR) || type.equals(NetworkType.WIFI)))) {
+    // 类型检测
+    // 1. 注解类型是否相同
+    // 2. 是否为连接成功类型
+    if (type.equals(mAnnotationNetworkType)
+        || isConnectedType(type)) {
       try {
+        // 判断方法是否有参数, 并执行方法
         if (mParameterClass == null) {
           mMethod.invoke(object);
         } else {
@@ -58,6 +58,20 @@ final class NetworkMonitorMethod {
         // do nothing, because it will never happen
       }
     }
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="工具方法">
+
+  /**
+   * 是否为连接成功的方法
+   *
+   * @param type 网络类型
+   */
+  private boolean isConnectedType(@NonNull NetworkType type) {
+    return NetworkType.CONNECTED.equals(mAnnotationNetworkType)
+        && (NetworkType.CELLULAR.equals(type)
+        || NetworkType.WIFI.equals(type));
   }
   //</editor-fold>
 }
