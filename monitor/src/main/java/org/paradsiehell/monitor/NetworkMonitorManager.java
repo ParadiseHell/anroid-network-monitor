@@ -87,6 +87,7 @@ public final class NetworkMonitorManager {
     if (mApplicationContext != null) {
       if (mReceiver != null) {
         mApplicationContext.unregisterReceiver(mReceiver);
+        mReceiver = null;
       }
       if (mMonitorListener != null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -96,8 +97,10 @@ public final class NetworkMonitorManager {
           if (manager != null) {
             manager.unregisterNetworkCallback(mMonitorListener);
           }
+          mMonitorListener = null;
         }
       }
+      mApplicationContext = null;
     }
   }
 
